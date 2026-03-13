@@ -1,11 +1,9 @@
 /**
  * @swagger
  *
- * /merchandise/list:
+ * /merchandises:
  *   get:
- *     security:
- *       - bearerAuth: []
- *     summary: List all merchandise
+ *     summary: List merchandise for users
  *     tags: [Merchandise]
  *     parameters:
  *      - in: query
@@ -14,47 +12,21 @@
  *        description: The page of list
  *        example: 1
  *      - in: query
- *        name: length
+ *        name: limit
  *        required: false
  *        description: The length of list
  *        example: 10
  *      - in: query
  *        name: search
  *        required: false
- *        description: search with keyword merchandise id, name, description, price, stock
+ *        description: Search by merchandise name
  *     responses:
  *       200:
  *         description: A list of merchandise
  *         content:
  *           application/json:
  *             schema:
- *               type: array
- *       500:
- *         description: Internal Server Error
- *
- * /merchandise/detail:
- *   get:
- *     security:
- *       - bearerAuth: []
- *     summary: Get merchandise detail
- *     tags: [Merchandise]
- *     parameters:
- *      - in: path
- *        name: id
- *        required: true
- *        description: The ID of the merchandise
- *        example: 1
- *     responses:
- *       200:
- *         description: Merchandise detail
- *         content:
- *           application/json:
- *             schema:
  *               type: object
- *       500:
- *         description: Internal Server Error
- *
- * /merchandise/create:
  *   post:
  *     security:
  *       - bearerAuth: []
@@ -69,11 +41,11 @@
  *               name:
  *                 description: Merchandise name
  *                 type: string
- *                 example: "T-Shirt"
+ *                 example: T-Shirt
  *               description:
  *                 description: Merchandise description
  *                 type: string
- *                 example: "This is a cool T-Shirt"
+ *                 example: This is a cool T-Shirt
  *               price:
  *                 description: Merchandise price
  *                 type: number
@@ -86,13 +58,39 @@
  *                 description: Merchandise image file
  *                 type: string
  *                 format: binary
+ *               link:
+ *                 description: External purchase link
+ *                 type: string
+ *                 example: https://example.com/product
  *     responses:
- *       200:
+ *       201:
  *         description: Merchandise successfully created
  *       500:
  *         description: Internal Server Error
  *
- * /merchandise/update/{id}:
+ * /merchandises/{id}:
+ *   get:
+ *     summary: Get merchandise detail for users
+ *     tags: [Merchandise]
+ *     parameters:
+ *      - in: path
+ *        name: id
+ *        required: true
+ *        description: The ID of the merchandise
+ *        example: 1
+ *     responses:
+ *       200:
+ *         description: Merchandise detail
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *       400:
+ *         description: Invalid merchandise id
+ *       404:
+ *         description: Merchandise not found
+ *       500:
+ *         description: Internal Server Error
  *   put:
  *     security:
  *       - bearerAuth: []
@@ -113,11 +111,11 @@
  *               name:
  *                 description: Merchandise name
  *                 type: string
- *                 example: "T-Shirt"
+ *                 example: T-Shirt
  *               description:
  *                 description: Merchandise description
  *                 type: string
- *                 example: "This is a cool T-Shirt"
+ *                 example: This is a cool T-Shirt
  *               price:
  *                 description: Merchandise price
  *                 type: number
@@ -130,13 +128,15 @@
  *                 description: Merchandise image file
  *                 type: string
  *                 format: binary
+ *               link:
+ *                 description: External purchase link
+ *                 type: string
+ *                 example: https://example.com/product
  *     responses:
  *       200:
  *         description: Merchandise successfully updated
  *       500:
  *         description: Internal Server Error
- *
- * /merchandise/delete/{id}:
  *   delete:
  *     security:
  *       - bearerAuth: []
