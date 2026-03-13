@@ -2,9 +2,15 @@ const path = require('path');
 require('dotenv').config({ path: path.resolve(__dirname, '../../.env') });
 
 // Debug environment variables
+const passwordDebugValue = process.env.DB_PASSWORD === undefined
+  ? 'undefined'
+  : process.env.DB_PASSWORD === ''
+    ? '(empty string)'
+    : '***';
+
 console.log('=== Database Config Debug ===');
 console.log('DB_USERNAME:', process.env.DB_USERNAME);
-console.log('DB_PASSWORD:', process.env.DB_PASSWORD ? '***' : 'undefined');
+console.log('DB_PASSWORD:', passwordDebugValue);
 console.log('DB_DATABASE:', process.env.DB_DATABASE);
 console.log('DB_HOST:', process.env.DB_HOST);
 console.log('DB_PORT:', process.env.DB_PORT);
@@ -36,4 +42,3 @@ module.exports = {
     dialect: 'mysql',
   },
 };
-
