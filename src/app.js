@@ -12,32 +12,43 @@ const swaggerJsDoc = require('swagger-jsdoc');
 const swaggerUi = require('swagger-ui-express');
 const router = require('./routes/index');
 
-// Konfigurasi CORS - Dynamic origins dari environment variables
 const getCorsOrigins = () => {
-  const origins = [];
-  
-  // Development origins (hanya jika NODE_ENV development)
-  if (process.env.NODE_ENV === 'development' || !process.env.NODE_ENV) {
-    origins.push('http://localhost:3000', 'http://localhost:8080', 'http://localhost:8081');
-  }
-  
-  // Production origins dari environment variables
-  if (process.env.WEB_APP_URL) origins.push(process.env.WEB_APP_URL);
-  if (process.env.WEB_ADMIN_URL) origins.push(process.env.WEB_ADMIN_URL);
-  if (process.env.API_UPLOAD_URL) origins.push(process.env.API_UPLOAD_URL);
-  
-  // Fallback untuk production jika env vars tidak ada
-  if (process.env.NODE_ENV === 'production' && origins.length === 0) {
+  const origins = new Set([
+    'http://localhost:3000',
+    'http://localhost:8080',
+    'http://localhost:8081',
+    'https://iom-itb-api.vercel.app',
+    'https://iom-itb-app.vercel.app',
+    'https://iom-itb-admin-nu.vercel.app',
+  ]);
+
+  if (process.env.WEB_APP_URL) origins.add(process.env.WEB_APP_URL);
+  if (process.env.WEB_ADMIN_URL) origins.add(process.env.WEB_ADMIN_URL);
+  if (process.env.API_UPLOAD_URL) origins.add(process.env.API_UPLOAD_URL);
+  if (process.env.BASE_URL) origins.add(process.env.BASE_URL);
+
+  if (process.env.NODE_ENV === 'production' && origins.size === 0) {
     console.warn('⚠️  No CORS origins configured! Please set WEB_APP_URL and WEB_ADMIN_URL environment variables.');
   }
-  
-  return origins;
+
+  return Array.from(origins);
 };
 
 const corsOptions = {
-  origin: getCorsOrigins(),
-  methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH'],
-  credentials: true
+  origin(origin, callback) {
+    const allowedOrigins = getCorsOrigins();
+
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true);
+      return;
+    }
+
+    callback(new Error(`CORS blocked for origin: ${origin}`));
+  },
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
+  allowedHeaders: ['Origin', 'X-Requested-With', 'Content-Type', 'Accept', 'Authorization'],
+  credentials: true,
+  optionsSuccessStatus: 204,
 };
 
 const app = express();
@@ -68,26 +79,8 @@ app.use(
 
 app.use(morgan('dev'));
 // app.use(helmet());
-
-// Manual CORS implementation
-app.use((req, res, next) => {
-  const origin = req.headers.origin;
-  const allowedOrigins = corsOptions.origin;
-  
-  if (allowedOrigins.includes(origin)) {
-    res.header('Access-Control-Allow-Origin', origin);
-    res.header('Access-Control-Allow-Credentials', 'true');
-    res.header('Access-Control-Allow-Methods', 'GET,POST,PUT,DELETE,PATCH,OPTIONS');
-    res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, Authorization');
-  }
-  
-  if (req.method === 'OPTIONS') {
-    res.sendStatus(204);
-    return;
-  }
-  
-  next();
-});
+app.use(cors(corsOptions));
+app.options('*', cors(corsOptions));
 
 app.use(express.json());
 
