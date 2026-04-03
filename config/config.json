@@ -1,26 +1,35 @@
 {
   "development": {
-    "username": "root",
-    "password": "cyeQ9o2AMoSU66uPYJkL9f4mxY8mDdRrDYbInWWqm2qWV6MEETvVDzR4Xswa2eKa",
-    "database": "iom-itb",
-    "host": "195.110.58.17",
-    "port": 3306,
-    "dialect": "mysql"
+    "use_env_variable": "DATABASE_URL",
+    "dialect": "postgres",
+    "logging": false,
+    "dialectOptions": {
+      "ssl": {
+        "require": true,
+        "rejectUnauthorized": false
+      }
+    }
   },
   "test": {
-    "username": "root",
-    "password": "cyeQ9o2AMoSU66uPYJkL9f4mxY8mDdRrDYbInWWqm2qWV6MEETvVDzR4Xswa2eKa",
-    "database": "iom-itb",
-    "host": "195.110.58.17",
-    "port": 3306,
-    "dialect": "mysql"
+    "use_env_variable": "DATABASE_URL",
+    "dialect": "postgres",
+    "logging": false,
+    "dialectOptions": {
+      "ssl": {
+        "require": true,
+        "rejectUnauthorized": false
+      }
+    }
   },
   "production": {
-    "username": "root",
-    "password": "cyeQ9o2AMoSU66uPYJkL9f4mxY8mDdRrDYbInWWqm2qWV6MEETvVDzR4Xswa2eKa",
-    "database": "iom-itb",
-    "host": "195.110.58.17",
-    "port": 3306,
-    "dialect": "mysql"
+    "use_env_variable": "DATABASE_URL",
+    "dialect": "postgres",
+    "logging": false,
+    "dialectOptions": {
+      "ssl": {
+        "require": true,
+        "rejectUnauthorized": false
+      }
+    }
   }
 }
