@@ -1,7 +1,11 @@
-const app = require('./app');
+const app = require("./app");
 
 const PORT = process.env.PORT || 3000;
 
-app.listen(PORT, () => {
-  console.log(`Server is running on port ${PORT}`);
-});
+if (require.main === module) {
+  app.listen(PORT, () => {
+    console.log(PORT);
+  });
+}
+
+module.exports = app;
