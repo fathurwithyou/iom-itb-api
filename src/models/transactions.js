@@ -62,7 +62,7 @@ module.exports = (sequelize, DataTypes) => {
     },
     payment: {
       type: DataTypes.STRING,
-      allowNull: false
+      allowNull: true
     }
   }, {
     sequelize,
