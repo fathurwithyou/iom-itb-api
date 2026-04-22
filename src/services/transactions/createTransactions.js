@@ -2,7 +2,7 @@ const { Transactions, Merchandises, sequelize } = require('../../models');
 const { StatusCodes } = require('http-status-codes');
 const BaseError = require('../../schemas/responses/BaseError');
 const fs = require('fs');
-const path = require('path'); // Ensure path is imported
+const path = require('path');
 
 const CreateTransaction = async (body, files, uploadPath) => {
   // Start transaction
@@ -59,7 +59,7 @@ const CreateTransaction = async (body, files, uploadPath) => {
     return {
       code: newTransaction.code,
       message: 'Transaction created successfully',
-      transactionId: newTransaction.id // Optional: return transaction ID if needed
+      transactionId: newTransaction.id
     };
   } catch (error) {
     // Rollback the transaction in case of error

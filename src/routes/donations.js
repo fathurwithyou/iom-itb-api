@@ -13,7 +13,7 @@ const router = Router();
 router.get('', [], GetAllDonations);
 router.get('/admin', JWTValidation, GetAllDonations);
 router.get('/:id', [], GetDonationById);
-router.post('', JWTValidation, CreateNewDonation);
+router.post('', [], CreateNewDonation);
 router.put('/:id', JWTValidation, UpdateDonationById);
 router.delete('/:id', JWTValidation, DeleteDonationById);
 
