@@ -66,6 +66,20 @@ module.exports = (sequelize, DataTypes) => {
     bank: {
       type: DataTypes.STRING,
       allowNull: true
+    },
+    midtrans_order_id: {
+      type: DataTypes.STRING,
+      allowNull: true
+    },
+    nameIsHidden: {
+      type: DataTypes.BOOLEAN,
+      defaultValue: false,
+      allowNull: true
+    },
+    isHambaAllah: {
+      type: DataTypes.BOOLEAN,
+      defaultValue: false,
+      allowNull: true
     }
   }, {
     sequelize,
